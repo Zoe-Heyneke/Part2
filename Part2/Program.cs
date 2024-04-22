@@ -148,6 +148,7 @@ internal class ProgramPart1
             Console.ForegroundColor = ConsoleColor.White;       //change text color to white
             Console.WriteLine("Choose a menu option (in the brackets) that you want to perform on the recipe ");
             Console.ForegroundColor = ConsoleColor.DarkCyan;        //change text color to dark cyan
+            Console.WriteLine("(A) Add new recipe");
             Console.WriteLine("(D) Display full recipe");
             Console.WriteLine("(S) Scale recipe");
             Console.WriteLine("(R) Reset recipe");
@@ -164,6 +165,9 @@ internal class ProgramPart1
             //switch case menu to perform each option chosen
             switch (menu)
             {
+                case "N":
+                    //add new recipe
+                    break;
                 case "D":
                     //display recipe
                     Console.ForegroundColor = ConsoleColor.DarkCyan;        //change text color to dark cyan
