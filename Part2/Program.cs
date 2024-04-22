@@ -25,6 +25,11 @@ internal class ProgramPart1
         Console.WriteLine("***** Welcome to the Recipe Application *****");
         Console.WriteLine("Please enter the following details for a single recipe");
 
+        //ask user to enter the name of recipe
+        Console.ForegroundColor = ConsoleColor.DarkMagenta;     //change text color to purple
+        Console.WriteLine("Enter the name of the recipe: ");
+        string name = Console.ReadLine();
+
         //Ask the user the number of ingredients and read user's input stored as numIng
         Console.ForegroundColor = ConsoleColor.DarkMagenta;     //change text color to purple
         Console.WriteLine("Enter the number of ingredients: ");
