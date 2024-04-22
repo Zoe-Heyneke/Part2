@@ -9,6 +9,7 @@ internal class ProgramPart1
         public string name;
         public double quantity;
         public string unitsOfMeasurements;
+        public double calories;
     }
 
     //in the main method is RecipeDetails() which ensures that all operations inside RecipeDetails() will run 
@@ -28,6 +29,7 @@ internal class ProgramPart1
         //ask user to enter the name of recipe
         Console.ForegroundColor = ConsoleColor.DarkMagenta;     //change text color to purple
         Console.WriteLine("Enter the name of the recipe: ");
+        Console.ForegroundColor = ConsoleColor.White;       //change text color to white
         string name = Console.ReadLine();
 
         //Ask the user the number of ingredients and read user's input stored as numIng
@@ -87,6 +89,12 @@ internal class ProgramPart1
             Console.ForegroundColor = ConsoleColor.White;       //change text color to white
             string unitsMe = Console.ReadLine();
 
+            //ask user to enter the number of calories and store it as cals
+            Console.ForegroundColor = ConsoleColor.DarkMagenta;     //change text color to purple
+            Console.WriteLine("Enter the number of calories of the ingredient: ");
+            Console.ForegroundColor = ConsoleColor.White;       //change text color to white
+            double cals = Convert.ToDouble(Console.ReadLine());
+
             //create new object which is Ingredients which is assigned to ingredients[i] (this will help with positioning of the array)
             //variables are set to stored values of user input to be in the array of ingredients
             ingredients[i] = new Ingredients
@@ -94,6 +102,7 @@ internal class ProgramPart1
                 name = nameIng,
                 quantity = quantityIng,
                 unitsOfMeasurements = unitsMe,
+                calories = cals,
             };
 
             //clear console screen
