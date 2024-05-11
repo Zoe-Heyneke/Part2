@@ -15,17 +15,17 @@ internal class ProgramPart1
     //in the main method is RecipeDetails() which ensures that all operations inside RecipeDetails() will run 
     private static void Main(string[] args)
     {
+        //improvement1
+        //Welcome user to the app
+        Console.ForegroundColor = ConsoleColor.White;       //change text color to white
+        Console.WriteLine("***** Welcome to the Recipe Application *****");
+        Console.WriteLine("Please enter the following details for a single recipe");
         RecipeDetails();
     }
 
     //expanding method RecipeDetails() by inputting operations
     public static void RecipeDetails()
     {
-        //Welcome user to the app
-        Console.ForegroundColor = ConsoleColor.White;       //change text color to white
-        Console.WriteLine("***** Welcome to the Recipe Application *****");
-        Console.WriteLine("Please enter the following details for a single recipe");
-
         //ask user to enter the name of recipe
         Console.ForegroundColor = ConsoleColor.DarkMagenta;     //change text color to purple
         Console.WriteLine("Enter the name of the recipe: ");
@@ -83,11 +83,62 @@ internal class ProgramPart1
             Console.ForegroundColor = ConsoleColor.White;       //change text color to white
             double quantityIng = Convert.ToDouble(Console.ReadLine());
 
+            //improvement2
+            //allow user to choose the unit of measurement by using menu system
             //ask user to enter the unit of measurement and store it as unitsMe
             Console.ForegroundColor = ConsoleColor.DarkMagenta;     //change text color to purple
-            Console.WriteLine("Enter the unit of measurement (measurement in words - for example teaspoon, gram, cup) of the ingredient:");
+            Console.WriteLine("Enter the unit of measurement of the ingredient by choosing one of the letters in brackets: ");
             Console.ForegroundColor = ConsoleColor.White;       //change text color to white
+            Console.WriteLine("(C) Cup");
+            Console.WriteLine("(T) Tablespoon");
+            Console.WriteLine("(S) Teaspoon");
+            Console.WriteLine("(G) Gram");
+            Console.WriteLine("(K) Kilogram");
+            Console.WriteLine("(L) Litres");
+            Console.WriteLine("(M) Millilitres");
+
+            //users input is saved as a string as the variable unitsMe
             string unitsMe = Console.ReadLine();
+
+            //switch case
+            //assign each option to variable of unitsMe so that it will display in the recipe
+            //confirm with user their option
+            switch(unitsMe)
+            {
+                case "C":
+                    unitsMe = "cup";
+                    Console.WriteLine("Unit of Measurement - cup");
+                    break;
+                case "T":
+                    unitsMe = "tablespoon";
+                    Console.WriteLine("Unit of Measurement - tablespoon");
+                    break;
+                case "S":
+                    unitsMe = "teaspoon";
+                    Console.WriteLine("Unit of Measurement - teaspoon");
+                    break;
+                case "G":
+                    unitsMe = "gram";
+                    Console.WriteLine("Unit of Measurement - gram");
+                    break;
+                case "K":
+                    unitsMe = "kilogram";
+                    Console.WriteLine("Unit of Measurement - kilogram");
+                    break;
+                case "L":
+                    unitsMe = "litres";
+                    Console.WriteLine("Unit of Measurement - litres");
+                    break;
+                case "M":
+                    unitsMe = "millilitres";
+                    Console.WriteLine("Unit of Measurement - millilitres");
+                    break;
+                default:
+                    //default option will be cup when user enters no choice
+                    unitsMe = "cup";
+                    Console.WriteLine("Unit of Measurement - Cup");
+                    break;
+            }
 
             //ask user to enter the number of calories and store it as cals
             Console.ForegroundColor = ConsoleColor.DarkMagenta;     //change text color to purple
