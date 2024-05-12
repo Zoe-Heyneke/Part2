@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;   //namespace contains interfaces and classes that define generic collections
 using System.ComponentModel.DataAnnotations;
 using static ProgramPart1;
 
@@ -14,9 +15,11 @@ internal class ProgramPart1
     }
 
     //declaring and initializing variables as private static to make them accessuble by new private static void methods
-    private static Ingredients[] ingredients;
+    //private static Ingredients[] ingredients;
+    private static List<Ingredients> ingredients;
     private static int numIng;
-    private static string[] steps;
+    //private static string[] steps;
+    private static List<string> steps;
     private static int numSteps;
     private static double[] orgQuantities;
 
@@ -74,10 +77,15 @@ internal class ProgramPart1
         //clear console screen
         Console.Clear();
 
-        //create array for ingredients setting the size to numIng which is the number chosen by the user
+        //(1)create array for ingredients setting the size to numIng which is the number chosen by the user
         //Ingredients[] ingredients = new Ingredients[numIng];
-        //fix array of ingredients that was a local declaration so that it can be accessed by the private staic void methods
-        ingredients = new Ingredients[numIng];
+        
+        //(2)fix array of ingredients that was a local declaration so that it can be accessed by the private staic void methods
+        //ingredients = new Ingredients[numIng];
+        
+        //(3)generic collection: list
+        //change array to generic list (creating a list and ingredients are now stored as a list)
+        ingredients = new List<Ingredients>();
 
         //for loop because for each number of ingredient chosen by user it must ask the name, quantity, and units of measurement
         for (int i = 0; i < numIng; i++)
@@ -157,15 +165,21 @@ internal class ProgramPart1
             Console.ForegroundColor = ConsoleColor.White;       //change text color to white
             double cals = Convert.ToDouble(Console.ReadLine());
 
-            //create new object which is Ingredients which is assigned to ingredients[i] (this will help with positioning of the array)
+            //(1)create new object which is Ingredients which is assigned to ingredients[i] (this will help with positioning of the array)
             //variables are set to stored values of user input to be in the array of ingredients
-            ingredients[i] = new Ingredients
+            //ingredients[i] = new Ingredients
+
+            //generic collection in place of array (to add to the list of ingredients)
+            Ingredients moreIngredients = new Ingredients
             {
                 name = nameIng,
                 quantity = quantityIng,
                 unitsOfMeasurements = unitsMe,
                 calories = cals,
             };
+
+            //add method to add each ingredient entered by the user to generic list
+            ingredients.Add(moreIngredients);
 
             //clear console screen
             Console.Clear();
@@ -177,17 +191,27 @@ internal class ProgramPart1
         Console.ForegroundColor = ConsoleColor.White;       //change text color to white
         numSteps = Convert.ToInt32(Console.ReadLine());
 
-        //allows user to input a string of description of each step with the use of the string array which is set by the num of step entered by the user
+        //(1)allows user to input a string of description of each step with the use of the string array which is set by the num of step entered by the user
         //ach step iterates to the next step
         //string[] steps = new string[numSteps];
-        //fix steps array because it is also declared as a local varaible, now it can be accessed by the private static void method
-        steps = new string[numSteps];
+
+        //(2)fix steps array because it is also declared as a local varaible, now it can be accessed by the private static void method
+        //steps = new string[numSteps];
+
+        //(3)generic collection: list
+        //change array to generic list (creating a list and steps are now stored as a list)
+        steps = new List<string>();
         for (int i = 0; i < numSteps; i++)
         {
             Console.ForegroundColor = ConsoleColor.DarkCyan;       //change text color to dark cyan
             Console.WriteLine("Step " + (i + 1) + " : ");
             Console.ForegroundColor = ConsoleColor.White;       //change text color to white
-            steps[i] = Console.ReadLine();
+            //steps[i] = Console.ReadLine();
+
+            //generic collection in place of array (to add to the list of ingredients)
+            string moreSteps = Console.ReadLine();
+            //add method to add each step entered by user to generic list
+            steps.Add(moreSteps);
         }
 
         //clear console screen
