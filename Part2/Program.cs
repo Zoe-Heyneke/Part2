@@ -12,6 +12,7 @@ internal class ProgramPart1
         public double quantity;
         public string unitsOfMeasurements;
         public double calories;
+        public string foodGroup;
     }
 
     //declaring and initializing variables as private static to make them accessuble by new private static void methods
@@ -88,7 +89,7 @@ internal class ProgramPart1
         //change array to generic list (creating a list and ingredients are now stored as a list)
         ingredients = new List<Ingredients>();
 
-        //for loop because for each number of ingredient chosen by user it must ask the name, quantity, and units of measurement
+        //for loop because for each number of ingredient chosen by user it must ask the name, quantity, and units of measurement, calories, food group
         for (int i = 0; i < numIng; i++)
         {
             //ask user to enter the name of the ingredient and store it as nameIng
@@ -166,6 +167,69 @@ internal class ProgramPart1
             Console.ForegroundColor = ConsoleColor.White;       //change text color to white
             double cals = Convert.ToDouble(Console.ReadLine());
 
+            //allow user to choose the food group of the ingredient by using menu system
+            //ask user to choose the food group and store it as fg
+            Console.ForegroundColor = ConsoleColor.DarkMagenta;     //change text color to purple
+            Console.WriteLine("Choose the food group of the ingredient by choosing one of the letters in brackets: ");
+            Console.ForegroundColor = ConsoleColor.White;       //change text color to white
+            Console.WriteLine("(C) *** Carbohydrates *** \n Starchy foods -> Pap,Potatoes,Pasta,Bread,Rice \n");
+            Console.WriteLine("(V) *** Vegetables and Fruits *** \n Healthy foods  -> Carrots,Spinach,Broccoli and Apple,Orange,Pear,Mango \n");
+            Console.WriteLine("(P) *** Protein *** \n Building blocks -> Chicken,Mince,Eggs,Beans,Peas,Lentils \n");
+            Console.WriteLine("(F) *** Fats and Oils *** \n -> Avocado,Olive Oil,Butter,Nuts and Seeds \n");
+            Console.WriteLine("(D) *** Dairy *** \n Milk Products -> Milk,Yoghurt,Cottage cheese \n");
+            Console.WriteLine("(W) *** Water *** \n Fluids -> Water,Sugar Free Drinks like Tea or Coffee \n");
+            Console.WriteLine("(O) *** Other *** \n Non-healthy -> Soft Drinks,Chips,Cookies,Candy \n");
+
+            //users input is saved as a int and converted as the variable fg
+            string fg = Console.ReadLine();
+
+            //switch case
+            //assign each option to variable of fg so that it will display in the recipe
+            //confirm with user their option
+            switch (fg)
+            {
+                case "C":
+                    fg = "Carbohydrates";
+                    Console.ForegroundColor = ConsoleColor.DarkCyan;       //change text color to dark cyan
+                    Console.WriteLine("Food Group - Carbohydrates \n Source of fibre");
+                    break;
+                case "V":
+                    fg = "Vegetables and Fruits";
+                    Console.ForegroundColor = ConsoleColor.DarkCyan;       //change text color to dark cyan
+                    Console.WriteLine("Food Group - Vegetables and Fruits \n Source of vitamins and minerals");
+                    break;
+                case "P":
+                    fg = "Protein";
+                    Console.ForegroundColor = ConsoleColor.DarkCyan;       //change text color to dark cyan
+                    Console.WriteLine("Food Group - Protein \n Source of amino acids");
+                    break;
+                case "F":
+                    fg = "Fats and Oils";
+                    Console.ForegroundColor = ConsoleColor.DarkCyan;       //change text color to dark cyan
+                    Console.WriteLine("Food Group - Fats and Oils \n Source of fatty acids");
+                    break;
+                case "D":
+                    fg = "Dairy";
+                    Console.ForegroundColor = ConsoleColor.DarkCyan;       //change text color to dark cyan
+                    Console.WriteLine("Food Group - Dairy \n Source of calcium, protein and vitamins");
+                    break;
+                case "W":
+                    fg = "Water";
+                    Console.ForegroundColor = ConsoleColor.DarkCyan;       //change text color to dark cyan
+                    Console.WriteLine("Food Group - Water \n Source of hydration");
+                    break;
+                case "O":
+                    fg = "Other";
+                    Console.ForegroundColor = ConsoleColor.DarkCyan;       //change text color to dark cyan
+                    Console.WriteLine("Food Group - Other \n Unhealthy foods");
+                    break;
+                default:
+                    fg = "Other";
+                    //default option is other due to unknown value entered by user
+                    Console.ForegroundColor = ConsoleColor.DarkCyan;       //change text color to dark cyan
+                    Console.WriteLine("Food Group - Other");
+                    break;
+            }
 
             //(1)create new object which is Ingredients which is assigned to ingredients[i] (this will help with positioning of the array)
             //variables are set to stored values of user input to be in the array of ingredients
@@ -178,6 +242,7 @@ internal class ProgramPart1
                 quantity = quantityIng,
                 unitsOfMeasurements = unitsMe,
                 calories = cals,
+                foodGroup = fg,
             };
 
             //add method to add each ingredient entered by the user to generic list
@@ -312,7 +377,6 @@ internal class ProgramPart1
                 Console.ForegroundColor = ConsoleColor.White;       //change text color to white
                 Console.WriteLine("Step " + (i + 1) + ": " + steps[i]);
             }
-
             //clear console screen n/a
             //Console.Clear();
         }
