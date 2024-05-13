@@ -23,6 +23,7 @@ internal class ProgramPart1
     private static List<string> steps;
     private static int numSteps;
     private static double[] orgQuantities;
+    private static string rName;
 
 
     //in the main method is RecipeDetails() which ensures that all operations inside RecipeDetails() will run 
@@ -44,7 +45,7 @@ internal class ProgramPart1
         Console.ForegroundColor = ConsoleColor.DarkMagenta;     //change text color to purple
         Console.WriteLine("Enter the name of the recipe: ");
         Console.ForegroundColor = ConsoleColor.White;       //change text color to white
-        string name = Console.ReadLine();
+        string rName = Console.ReadLine();
 
         //Ask the user the number of ingredients and read user's input stored as numIng
         Console.ForegroundColor = ConsoleColor.DarkMagenta;     //change text color to purple
@@ -310,7 +311,7 @@ internal class ProgramPart1
             Console.WriteLine("Choose a menu option (in the brackets) that you want to perform on the recipe ");
             Console.ForegroundColor = ConsoleColor.DarkCyan;        //change text color to dark cyan
             Console.WriteLine("(A) Add new recipe");
-            Console.WriteLine("(D) Display full recipe");
+            Console.WriteLine("(D) Display all recipes");
             Console.WriteLine("(S) Scale recipe");
             Console.WriteLine("(R) Reset recipe");
             Console.WriteLine("(C) Clear data to enter a new recipe");
@@ -360,14 +361,16 @@ internal class ProgramPart1
         {
             //display recipe
             Console.ForegroundColor = ConsoleColor.DarkCyan;        //change text color to dark cyan
-            Console.WriteLine("******** Recipe details ********");
+            Console.WriteLine("******** All Recipes ********");
+            
+            Console.WriteLine("Recipe Name: " + rName);
             Console.ForegroundColor = ConsoleColor.DarkMagenta;     //change text color to purple
             Console.WriteLine("---- Ingredients: ----");
             //foreach loop to iterate over each ingredient in the array and display the values (properties of the ingredient object created) in the way of the Console.WriteLine
             foreach (var ingredient in ingredients)
             {
                 Console.ForegroundColor = ConsoleColor.White;       //change text color to white
-                Console.WriteLine(ingredient.name + " -> " + ingredient.quantity + " " + ingredient.unitsOfMeasurements);
+                Console.WriteLine("Name: " + ingredient.name + "\n" + "Quantity: " + ingredient.quantity + "\n" + "Units of Measurements: " + ingredient.unitsOfMeasurements + "\n" + "Calories: " + ingredient.calories + "\n" + "Food Group: " + ingredient.foodGroup + "\n");
             }
             Console.ForegroundColor = ConsoleColor.DarkMagenta;       //change text color to purple
             Console.WriteLine("---- Steps: ----");
