@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;   //namespace contains interfaces and classes that define generic collections
+using System.Linq;  //to allow using method OrderBy();
 using System.ComponentModel.DataAnnotations;
 using static ProgramPart1;
 
@@ -312,7 +313,7 @@ internal class ProgramPart1
         }
 
         //add recipe details to list of recipes
-        recipeDetails.Add(recipe);
+        recipes.Add(recipeDetails);
 
         //clear console screen
         Console.Clear();
@@ -391,10 +392,32 @@ internal class ProgramPart1
 
         private static void Display()
         {
-            //display recipe
+            //linq    
+            //using order by method to sort the names alphabetically    
+            var alphaNames = recipeDetails.OrderBy(z => z);
+        
+            //display recipe names in alphabetical order
             Console.ForegroundColor = ConsoleColor.DarkCyan;        //change text color to dark cyan
             Console.WriteLine("******** All Recipes ********");
-            
+            int count = 0;  
+            foreach(Recipes names in alphaNames)
+            {
+                //Console.WriteLine(recName + "\n");
+                count++;    //increment for each number of recipes
+                Console.WriteLine(count + ") " + names + "\n");
+            }
+
+            //ask user to choose which recipe to display by entering it's full name
+            Console.ForegroundColor = ConsoleColor.DarkMagenta;     //change text color to purple
+            Console.WriteLine("Choose a number of the Recipe Name in order to display the full Recipe: ");
+            Console.ForegroundColor = ConsoleColor.White;       //change text color to white
+            int enteredNum = Convert.ToInt32(Console.ReadLine());
+
+            if(enteredNum == alphaNames)
+        {
+
+        }
+
             Console.WriteLine("Recipe Name: " + recName);
             Console.ForegroundColor = ConsoleColor.DarkMagenta;     //change text color to purple
             Console.WriteLine("---- Ingredients: ----");
