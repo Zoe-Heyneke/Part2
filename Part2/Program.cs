@@ -15,15 +15,29 @@ internal class ProgramPart1
         public string foodGroup;
     }
 
+    //declare and initialize variables used in recipes details list namespace
+    public class Recipes
+    {
+        public string recName //property
+        {  get; set; }  //get and set method to access value of private
+        public List<Ingredients> Ingredients //property
+        { get; set; }   //get and set method to access value of private
+        public List<string> recSteps //property
+        { get; set; }   //get and set method to access value of private
+
+        //potential fix:public object Ingredients { get; internal set; }
+    }
+
     //declaring and initializing variables as private static to make them accessuble by new private static void methods
     //private static Ingredients[] ingredients;
     private static List<Ingredients> ingredients;
     private static int numIng;
     //private static string[] steps;
-    private static List<string> steps;
+    private static List<string> recSteps;
     private static int numSteps;
     private static double[] orgQuantities;
-    private static string rName;
+    private static string recName;
+    private static List<Recipes> recipeDetails = new List<Recipes>();
 
 
     //in the main method is RecipeDetails() which ensures that all operations inside RecipeDetails() will run 
@@ -41,12 +55,17 @@ internal class ProgramPart1
     //expanding method RecipeDetails() by inputting operations
     public static void RecipeDetails()
     {
+        //create object
+        Recipes recipeDetails = new Recipes();
+        
         //ask user to enter the name of recipe
         Console.ForegroundColor = ConsoleColor.DarkMagenta;     //change text color to purple
         Console.WriteLine("Enter the name of the recipe: ");
         Console.ForegroundColor = ConsoleColor.White;       //change text color to white
-        string rName = Console.ReadLine();
-
+        string recName = Console.ReadLine();
+        
+        //move list at top to add ingredients to list
+        ingredients = new List<Ingredients>();
         //Ask the user the number of ingredients and read user's input stored as numIng
         Console.ForegroundColor = ConsoleColor.DarkMagenta;     //change text color to purple
         Console.WriteLine("Enter the number of ingredients: ");
@@ -88,11 +107,13 @@ internal class ProgramPart1
         
         //(3)generic collection: list
         //change array to generic list (creating a list and ingredients are now stored as a list)
-        ingredients = new List<Ingredients>();
+        //ingredients = new List<Ingredients>();
 
         //for loop because for each number of ingredient chosen by user it must ask the name, quantity, and units of measurement, calories, food group
         for (int i = 0; i < numIng; i++)
         {
+            //create object of ingredients
+            Ingredients ingredient = new Ingredients();
             //ask user to enter the name of the ingredient and store it as nameIng
             Console.ForegroundColor = ConsoleColor.DarkMagenta;     //change text color to purple
             Console.WriteLine("Enter the name of ingredient " + (i + 1) + ": ");
@@ -249,9 +270,16 @@ internal class ProgramPart1
             //add method to add each ingredient entered by the user to generic list
             ingredients.Add(moreIngredients);
 
+            //add method to add ingredients to recipe details list
+            //retreive from object
+            recipeDetails.Ingredients.Add(ingredient);
+
             //clear console screen
             Console.Clear();
         }
+
+        //move list for steps at top to save as whole list
+        recSteps = new List<string>();
 
         //ask user to enter the number of steps needed for the recipe and stored as numSteps
         Console.ForegroundColor = ConsoleColor.DarkMagenta;       //change text color to purple
@@ -268,7 +296,7 @@ internal class ProgramPart1
 
         //(3)generic collection: list
         //change array to generic list (creating a list and steps are now stored as a list)
-        steps = new List<string>();
+        //steps = new List<string>();
         for (int i = 0; i < numSteps; i++)
         {
             Console.ForegroundColor = ConsoleColor.DarkCyan;       //change text color to dark cyan
@@ -277,10 +305,14 @@ internal class ProgramPart1
             //steps[i] = Console.ReadLine();
 
             //generic collection in place of array (to add to the list of ingredients)
-            string moreSteps = Console.ReadLine();
+            //retreive from object
+            recSteps.Add(Console.ReadLine());
             //add method to add each step entered by user to generic list
-            steps.Add(moreSteps);
+            //steps.Add(moreSteps);
         }
+
+        //add recipe details to list of recipes
+        recipeDetails.Add(recipe);
 
         //clear console screen
         Console.Clear();
@@ -296,7 +328,7 @@ internal class ProgramPart1
         }
         Menu();
     }
-
+   
     private static void Menu()
     {
         //men is set to boolean value to ensure running menu
@@ -363,7 +395,7 @@ internal class ProgramPart1
             Console.ForegroundColor = ConsoleColor.DarkCyan;        //change text color to dark cyan
             Console.WriteLine("******** All Recipes ********");
             
-            Console.WriteLine("Recipe Name: " + rName);
+            Console.WriteLine("Recipe Name: " + recName);
             Console.ForegroundColor = ConsoleColor.DarkMagenta;     //change text color to purple
             Console.WriteLine("---- Ingredients: ----");
             //foreach loop to iterate over each ingredient in the array and display the values (properties of the ingredient object created) in the way of the Console.WriteLine
@@ -378,7 +410,7 @@ internal class ProgramPart1
             for (int i = 0; i < numSteps; i++)
             {
                 Console.ForegroundColor = ConsoleColor.White;       //change text color to white
-                Console.WriteLine("Step " + (i + 1) + ": " + steps[i]);
+                Console.WriteLine("Step " + (i + 1) + ": " + recSteps[i]);
             }
             //clear console screen n/a
             //Console.Clear();
@@ -496,8 +528,8 @@ internal class ProgramPart1
             //for loop because for each step in the array, the description of the step must be cleared therefore "" creating empty values
             for (int i = 0; i < numSteps; i++)
             {
-                steps[i] = "";
-                Console.WriteLine("Steps: " + steps[i]);
+                recSteps[i] = "";
+                Console.WriteLine("Steps: " + recSteps[i]);
             }
             //confirm the user hat data has been cleared and can now enter a new recipe's details
             Console.ForegroundColor = ConsoleColor.DarkMagenta;       //change text color to purple
