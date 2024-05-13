@@ -32,7 +32,8 @@ internal class ProgramPart1
         Console.ForegroundColor = ConsoleColor.White;       //change text color to white
         Console.WriteLine("***** Welcome to the Recipe Application *****");
         Console.WriteLine("Please enter the following details for a single recipe");
-        RecipeDetails();
+        //RecipeDetails();
+        Menu();
     }
 
     //expanding method RecipeDetails() by inputting operations
@@ -165,6 +166,7 @@ internal class ProgramPart1
             Console.ForegroundColor = ConsoleColor.White;       //change text color to white
             double cals = Convert.ToDouble(Console.ReadLine());
 
+
             //(1)create new object which is Ingredients which is assigned to ingredients[i] (this will help with positioning of the array)
             //variables are set to stored values of user input to be in the array of ingredients
             //ingredients[i] = new Ingredients
@@ -259,8 +261,9 @@ internal class ProgramPart1
             //switch case menu to perform each option chosen
             switch (menu)
             {
-                case "N":
+                case "A":
                     //add new recipe
+                    RecipeDetails();
                     break;
                 case "D":
                     Display();
