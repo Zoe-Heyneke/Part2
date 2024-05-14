@@ -20,6 +20,7 @@ namespace Part2
         { get; set; }   //get and set method to access value of private
         public List<string> recSteps //property
         { get; set; }   //get and set method to access value of private
+        
 
         //potential fix:public object Ingredients { get; internal set; }
     }
