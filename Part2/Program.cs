@@ -32,9 +32,9 @@ internal class ProgramPart1
     {
         //improvement1
         //Welcome user to the app
-        Console.ForegroundColor = ConsoleColor.White;       //change text color to white
+        Console.ForegroundColor = ConsoleColor.DarkMagenta;     //change text color to purple
         Console.WriteLine("***** Welcome to the Recipe Application *****");
-        Console.WriteLine("Please enter the following details for a single recipe");
+        Console.WriteLine("Please enter the following details for any recipe");
         //RecipeDetails();
         Menu();
     }
@@ -42,8 +42,7 @@ internal class ProgramPart1
     //expanding method RecipeDetails() by inputting operations
     public static void RecipeDetails()
     {
-        //create object
-        Recipes newRec = new Recipes();
+        Recipes newRec = new Recipes();     //create object
 
         //ask user to enter the name of recipe
         Console.ForegroundColor = ConsoleColor.DarkMagenta;     //change text color to purple
@@ -127,18 +126,17 @@ internal class ProgramPart1
             Console.WriteLine("(K) Kilogram");
             Console.WriteLine("(L) Litres");
             Console.WriteLine("(M) Millilitres");
+            Console.WriteLine("(O) Other");
 
             //users input is saved as a string as the variable unitsMe
             string unitsMe = Console.ReadLine();
 
             //switch case
-            //assign each option to variable of unitsMe so that it will display in the recipe
-            //confirm with user their option
-            switch (unitsMe)
+            switch (unitsMe)     //assign each option to variable of unitsMe so that it will display in the recipe   
             {
                 case "C":
                     unitsMe = "cup";
-                    Console.WriteLine("Unit of Measurement - cup");
+                    Console.WriteLine("Unit of Measurement - cup"); //confirm with user their option
                     break;
                 case "T":
                     unitsMe = "tablespoon";
@@ -164,18 +162,31 @@ internal class ProgramPart1
                     unitsMe = "millilitres";
                     Console.WriteLine("Unit of Measurement - millilitres");
                     break;
+                case "O":
+                    unitsMe = "other";
+                    Console.WriteLine("Unit of Measurement - other");
+                    break;
                 default:
-                    //default option will be cup when user enters no choice
-                    unitsMe = "cup";
-                    Console.WriteLine("Unit of Measurement - Cup");
+                    unitsMe = "other";
+                    Console.WriteLine("Unit of Measurement - other");   //default option will be other since we don't know what the user entered
                     break;
             }
+
+            //clear console screen
+            Console.Clear();
+
+            //calories
+            Console.ForegroundColor = ConsoleColor.DarkYellow;       //change text color to white
+            Console.WriteLine("*** Calories ***" + "\n" + "A calorie is a unit that measures the energy content of foods." + "\n" + "Calories and Quantities have a direct relationship (linear) : When the quantity increases the calories also increase and when the quantity decreases then the calories also decrease." + "\n");
 
             //ask user to enter the number of calories and store it as cals
             Console.ForegroundColor = ConsoleColor.DarkMagenta;     //change text color to purple
             Console.WriteLine("Enter the number of calories of the ingredient: ");
             Console.ForegroundColor = ConsoleColor.White;       //change text color to white
             double cals = Convert.ToDouble(Console.ReadLine());
+
+            //clear console screen
+            Console.Clear();
 
             //allow user to choose the food group of the ingredient by using menu system
             //ask user to choose the food group and store it as fg
@@ -388,7 +399,7 @@ internal class ProgramPart1
 
         //display recipe names in alphabetical order
         Console.ForegroundColor = ConsoleColor.DarkCyan;        //change text color to dark cyan
-        Console.WriteLine("******** All Recipes ********");
+        Console.WriteLine("*** All Recipes ***");
         //int count = 0;  
         for (int i = 0; i < recipeDetails.Count; i++)
         {
@@ -406,7 +417,7 @@ internal class ProgramPart1
         Recipes activeRecipe = recipeDetails[num - 1];
 
 
-        Console.WriteLine("Recipe Name: " + activeRecipe.recName);
+        Console.WriteLine("\n" + "Recipe Name: " + activeRecipe.recName);
         Console.ForegroundColor = ConsoleColor.DarkMagenta;     //change text color to purple
         Console.WriteLine("---- Ingredients: ----");
         //foreach loop to iterate over each ingredient in the array and display the values (properties of the ingredient object created) in the way of the Console.WriteLine
@@ -415,6 +426,29 @@ internal class ProgramPart1
             Console.ForegroundColor = ConsoleColor.White;       //change text color to white
             Console.WriteLine("Name: " + ingredient.name + "\n" + "Quantity: " + ingredient.quantity + "\n" + "Units of Measurements: " + ingredient.unitsOfMeasurements + "\n" + "Calories: " + ingredient.calories + "\n" + "Food Group: " + ingredient.foodGroup + "\n");
         }
+
+        //calculate calories
+        Console.ForegroundColor = ConsoleColor.DarkYellow;       //change text color to yellow
+        Console.WriteLine("---- Calories: ----");
+        Console.ResetColor();
+        double total_calories = 0;
+        foreach (var ingredient in activeRecipe.Ingredients)
+        {
+            total_calories += ingredient.calories;
+        }
+
+        Console.WriteLine($"Total Calories = {total_calories}" + "\n");
+        CalorieWarning warning = total_calories =>
+        {
+            if (total_calories > 300)
+            {
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine("Warning! Total calories exceeds 300!" + "\n" + "** All your ingredient's calories together are more than 300 calories **" + "\n");
+                Console.ResetColor();
+            }
+        };
+        warning(total_calories);
+
         Console.ForegroundColor = ConsoleColor.DarkMagenta;       //change text color to purple
         Console.WriteLine("---- Steps: ----");
         //for loop to iterate through each step and display each step that the user entered
@@ -425,27 +459,7 @@ internal class ProgramPart1
         }
         //clear console screen n/a
         //Console.Clear();
-        //calculate calories
-        Console.ForegroundColor = ConsoleColor.DarkMagenta;       //change text color to purple
-        Console.WriteLine("---- Total Calories ----");
-        Console.ResetColor();
-        double total_calories = 0;
-        foreach (var ingredient in activeRecipe.Ingredients)
-        {
-            total_calories += ingredient.calories;
-        }
-
-        Console.WriteLine($"Total Calories: {total_calories}");
-        CalorieWarning warning = total_calories =>
-        {
-            if (total_calories > 300)
-            {
-                Console.ForegroundColor = ConsoleColor.Red;
-                Console.WriteLine("Warning! Total calories exceeds 300 calories!");
-                Console.ResetColor();
-            }
-        };
-        warning(total_calories);
+        
     }
 
     private static void Scale()
@@ -472,6 +486,7 @@ internal class ProgramPart1
                 foreach (var ingredient in ingredients)
                 {
                     ingredient.quantity = ingredient.quantity * 0.5;
+                    ingredient.calories = ingredient.calories * 0.5;
                 }
                 //display new scaled values of recipe ingredients to ease oprations so that user doesn't have to enter D again to display full recipe, but user can choose D again to display full recipe
                 Console.ForegroundColor = ConsoleColor.DarkMagenta;       //change text color to purple
@@ -480,6 +495,8 @@ internal class ProgramPart1
                 {
                     Console.ForegroundColor = ConsoleColor.White;       //change text color to white
                     Console.WriteLine(ingredient.name + " -> " + ingredient.quantity + " " + ingredient.unitsOfMeasurements);
+                    Console.ForegroundColor = ConsoleColor.DarkYellow;       //change text color to yellow
+                    Console.WriteLine("Calories -> " + ingredient.calories + "\n");
                 }
                 break;
             case "Double":
@@ -488,6 +505,7 @@ internal class ProgramPart1
                 foreach (var ingredient in ingredients)
                 {
                     ingredient.quantity = ingredient.quantity * 2;
+                    ingredient.calories = ingredient.calories * 2;
                 }
                 //display new scaled values of recipe ingredients to ease oprations so that user doesn't have to enter D again to display full recipe, but user can choose D again to display full recipe
                 Console.ForegroundColor = ConsoleColor.DarkMagenta;       //change text color to purple
@@ -496,6 +514,8 @@ internal class ProgramPart1
                 {
                     Console.ForegroundColor = ConsoleColor.White;       //change text color to white
                     Console.WriteLine(ingredient.name + " -> " + ingredient.quantity + " " + ingredient.unitsOfMeasurements);
+                    Console.ForegroundColor = ConsoleColor.DarkYellow;       //change text color to yellow
+                    Console.WriteLine("Calories -> " + ingredient.calories + "\n");
                 }
                 break;
             case "Triple":
@@ -504,6 +524,7 @@ internal class ProgramPart1
                 foreach (var ingredient in ingredients)
                 {
                     ingredient.quantity = ingredient.quantity * 3;
+                    ingredient.calories = ingredient.calories * 3;
                 }
                 ////display new scaled values of recipe ingredients to ease oprations so that user doesn't have to enter D again to display full recipe, but user can choose D again to display full recipe
                 Console.ForegroundColor = ConsoleColor.DarkMagenta;       //change text color to purple
@@ -512,6 +533,8 @@ internal class ProgramPart1
                 {
                     Console.ForegroundColor = ConsoleColor.White;       //change text color to white
                     Console.WriteLine(ingredient.name + " -> " + ingredient.quantity + " " + ingredient.unitsOfMeasurements);
+                    Console.ForegroundColor = ConsoleColor.DarkYellow;       //change text color to yellow
+                    Console.WriteLine("Calories -> " + ingredient.calories + "\n");
                 }
 
                 //clear console screen n/a
