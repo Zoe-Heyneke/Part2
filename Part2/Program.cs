@@ -4,36 +4,15 @@ using System.Linq;  //to allow using method OrderBy();
 using System.ComponentModel.DataAnnotations;
 using static ProgramPart1;
 using static System.Runtime.InteropServices.JavaScript.JSType;
+using Part2;
 
 internal class ProgramPart1
 {
     //declare and initialize variables used in program
-    public class Ingredients
-    {
-        public string name
-        { get; set; }
-        public double quantity
-        { get; set; }
-        public string unitsOfMeasurements
-        { get; set; }
-        public double calories
-        { get; set; }
-        public string foodGroup
-        { get; set; }
-    }
+
 
     //declare and initialize variables used in recipes details list namespace
-    public class Recipes
-    {
-        public string recName //property
-        {  get; set; }  //get and set method to access value of private
-        public List<Ingredients> Ingredients //property
-        { get; set; }   //get and set method to access value of private
-        public List<string> recSteps //property
-        { get; set; }   //get and set method to access value of private
 
-        //potential fix:public object Ingredients { get; internal set; }
-    }
 
     //declaring and initializing variables as private static to make them accessuble by new private static void methods
     //private static Ingredients[] ingredients;
@@ -45,6 +24,7 @@ internal class ProgramPart1
     private static double[] orgQuantities;
     private static string recName;
     private static List<Recipes> recipeDetails = new List<Recipes>();
+    delegate void CalorieWarning(double number);
 
 
     //in the main method is RecipeDetails() which ensures that all operations inside RecipeDetails() will run 
@@ -63,14 +43,15 @@ internal class ProgramPart1
     public static void RecipeDetails()
     {
         //create object
-        Recipes recipeDetails = new Recipes();
-        
+        Recipes newRec = new Recipes();
+
         //ask user to enter the name of recipe
         Console.ForegroundColor = ConsoleColor.DarkMagenta;     //change text color to purple
         Console.WriteLine("Enter the name of the recipe: ");
         Console.ForegroundColor = ConsoleColor.White;       //change text color to white
         string recName = Console.ReadLine();
-        
+        newRec.recName = recName;
+
         //move list at top to add ingredients to list
         ingredients = new List<Ingredients>();
         //Ask the user the number of ingredients and read user's input stored as numIng
@@ -108,10 +89,10 @@ internal class ProgramPart1
 
         //(1)create array for ingredients setting the size to numIng which is the number chosen by the user
         //Ingredients[] ingredients = new Ingredients[numIng];
-        
+
         //(2)fix array of ingredients that was a local declaration so that it can be accessed by the private staic void methods
         //ingredients = new Ingredients[numIng];
-        
+
         //(3)generic collection: list
         //change array to generic list (creating a list and ingredients are now stored as a list)
         //ingredients = new List<Ingredients>();
@@ -279,7 +260,7 @@ internal class ProgramPart1
 
             //add method to add ingredients to recipe details list
             //retreive from object
-            recipeDetails.Ingredients.Add(ingredient);
+            newRec.Ingredients.Add(moreIngredients);
 
             //clear console screen
             Console.Clear();
@@ -319,7 +300,9 @@ internal class ProgramPart1
         }
 
         //add recipe details to list of recipes
-        recipes.Add(recipeDetails);
+        newRec.recSteps = recSteps;
+        recipeDetails.Add(newRec);
+        recipeDetails = recipeDetails.OrderBy(x => x.recName).ToList(); // Used to order recipes alphabetically
 
         //clear console screen
         Console.Clear();
@@ -335,7 +318,7 @@ internal class ProgramPart1
         }
         Menu();
     }
-   
+
     private static void Menu()
     {
         //men is set to boolean value to ensure running menu
@@ -396,190 +379,199 @@ internal class ProgramPart1
     }
 
 
-        private static void Display()
-        {
-            //linq    
-            //using order by method to sort the names alphabetically    
-            var alphaNames = recipeDetails.OrderBy(z => z);
-            //string myString = alphaNames;
-            //int myInt = Int32.Parse(myString);
+    private static void Display()
+    {
+        //linq    
+        //using order by method to sort the names alphabetically
+        //string myString = alphaNames;
+        //int myInt = Int32.Parse(myString);
 
         //display recipe names in alphabetical order
         Console.ForegroundColor = ConsoleColor.DarkCyan;        //change text color to dark cyan
-            Console.WriteLine("******** All Recipes ********");
-            //int count = 0;  
-            foreach(Recipes names in alphaNames)
-            {
-            //Console.WriteLine(recName + "\n");
-            //count++;    //increment for each number of recipes
-            //Console.WriteLine(count + ") " + names + "\n");
-            Console.WriteLine(names + "\n");
-            }
-
-            //ask user to choose which recipe to display by entering it's full name
-            Console.ForegroundColor = ConsoleColor.DarkMagenta;     //change text color to purple
-            Console.WriteLine("Choose a number of the Recipe Name in order to display the full Recipe: ");
-            Console.ForegroundColor = ConsoleColor.White;       //change text color to white
-            //int enteredNum = Convert.ToInt32(Console.ReadLine());
-            string enteredNum = Console.ReadLine();
-
-            if(enteredNum == alphaNames)
+        Console.WriteLine("******** All Recipes ********");
+        //int count = 0;  
+        for (int i = 0; i < recipeDetails.Count; i++)
         {
-
+            Console.WriteLine($"({i + 1}): {recipeDetails[i].recName}");
         }
 
-            Console.WriteLine("Recipe Name: " + recName);
-            Console.ForegroundColor = ConsoleColor.DarkMagenta;     //change text color to purple
-            Console.WriteLine("---- Ingredients: ----");
-            //foreach loop to iterate over each ingredient in the array and display the values (properties of the ingredient object created) in the way of the Console.WriteLine
-            foreach (var ingredient in ingredients)
+        //ask user to choose which recipe to display by entering it's full name
+        Console.ForegroundColor = ConsoleColor.DarkMagenta;     //change text color to purple
+        Console.WriteLine("Choose a number of the Recipe Name in order to display the full Recipe: ");
+        Console.ForegroundColor = ConsoleColor.White;       //change text color to white
+                                                            //int enteredNum = Convert.ToInt32(Console.ReadLine());
+        string enteredNum = Console.ReadLine();
+        int num = Convert.ToInt32(enteredNum);
+
+        Recipes activeRecipe = recipeDetails[num - 1];
+
+
+        Console.WriteLine("Recipe Name: " + activeRecipe.recName);
+        Console.ForegroundColor = ConsoleColor.DarkMagenta;     //change text color to purple
+        Console.WriteLine("---- Ingredients: ----");
+        //foreach loop to iterate over each ingredient in the array and display the values (properties of the ingredient object created) in the way of the Console.WriteLine
+        foreach (var ingredient in activeRecipe.Ingredients)
+        {
+            Console.ForegroundColor = ConsoleColor.White;       //change text color to white
+            Console.WriteLine("Name: " + ingredient.name + "\n" + "Quantity: " + ingredient.quantity + "\n" + "Units of Measurements: " + ingredient.unitsOfMeasurements + "\n" + "Calories: " + ingredient.calories + "\n" + "Food Group: " + ingredient.foodGroup + "\n");
+        }
+        Console.ForegroundColor = ConsoleColor.DarkMagenta;       //change text color to purple
+        Console.WriteLine("---- Steps: ----");
+        //for loop to iterate through each step and display each step that the user entered
+        for (int i = 0; i < activeRecipe.recSteps.Count; i++)
+        {
+            Console.ForegroundColor = ConsoleColor.White;       //change text color to white
+            Console.WriteLine("Step " + (i + 1) + ": " + activeRecipe.recSteps[i]);
+        }
+        //clear console screen n/a
+        //Console.Clear();
+        //calculate calories
+        Console.ForegroundColor = ConsoleColor.DarkMagenta;       //change text color to purple
+        Console.WriteLine("---- Total Calories ----");
+        Console.ResetColor();
+        double total_calories = 0;
+        foreach (var ingredient in activeRecipe.Ingredients)
+        {
+            total_calories += ingredient.calories;
+        }
+
+        Console.WriteLine($"Total Calories: {total_calories}");
+        CalorieWarning warning = total_calories =>
+        {
+            if (total_calories > 300)
             {
-                Console.ForegroundColor = ConsoleColor.White;       //change text color to white
-                Console.WriteLine("Name: " + ingredient.name + "\n" + "Quantity: " + ingredient.quantity + "\n" + "Units of Measurements: " + ingredient.unitsOfMeasurements + "\n" + "Calories: " + ingredient.calories + "\n" + "Food Group: " + ingredient.foodGroup + "\n");
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine("Warning! Total calories exceeds 300 calories!");
+                Console.ResetColor();
             }
-            Console.ForegroundColor = ConsoleColor.DarkMagenta;       //change text color to purple
-            Console.WriteLine("---- Steps: ----");
-            //for loop to iterate through each step and display each step that the user entered
-            for (int i = 0; i < numSteps; i++)
-            {
-                Console.ForegroundColor = ConsoleColor.White;       //change text color to white
-                Console.WriteLine("Step " + (i + 1) + ": " + recSteps[i]);
-            }
-            //clear console screen n/a
-            //Console.Clear();
-            //calculate calories
-            Console.ForegroundColor = ConsoleColor.DarkMagenta;       //change text color to purple
-            Console.WriteLine("---- Total Calories ----");
-            foreach(var ingredient in ingredients)
-            {
-                ingredient.calories = ingredient.calories + ingredient.calories;
-            }
+        };
+        warning(total_calories);
     }
 
-        private static void Scale()
+    private static void Scale()
+    {
+        //incorporate menu system for user to choose  scaling factor
+        Console.ForegroundColor = ConsoleColor.White;       //change text color to white
+        Console.WriteLine("Choose a scaling factor (enter the following scaling words in the brackets)");
+        Console.ForegroundColor = ConsoleColor.DarkCyan;        //change text color to dark cyan
+        Console.WriteLine("(Half) = 0.5");
+        Console.WriteLine("(Double) = 2");
+        Console.WriteLine("(Triple) = 3");
+        Console.WriteLine("(B) Go back");
+
+        //capture user input which is a string value
+        Console.ForegroundColor = ConsoleColor.White;       //change text color to white
+        string scalingFactor = Console.ReadLine();
+
+        ////switch case menu to perform each option chosen
+        switch (scalingFactor)
         {
-            //incorporate menu system for user to choose  scaling factor
-            Console.ForegroundColor = ConsoleColor.White;       //change text color to white
-            Console.WriteLine("Choose a scaling factor (enter the following scaling words in the brackets)");
-            Console.ForegroundColor = ConsoleColor.DarkCyan;        //change text color to dark cyan
-            Console.WriteLine("(Half) = 0.5");
-            Console.WriteLine("(Double) = 2");
-            Console.WriteLine("(Triple) = 3");
-            Console.WriteLine("(B) Go back");
+            case "Half":
+                //multiply the quantity of the ingredient by 0.5 which is half
+                //foreach loop because for each ingredient the operation must be done
+                foreach (var ingredient in ingredients)
+                {
+                    ingredient.quantity = ingredient.quantity * 0.5;
+                }
+                //display new scaled values of recipe ingredients to ease oprations so that user doesn't have to enter D again to display full recipe, but user can choose D again to display full recipe
+                Console.ForegroundColor = ConsoleColor.DarkMagenta;       //change text color to purple
+                Console.WriteLine("---- Scaled recipe ----");
+                foreach (var ingredient in ingredients)
+                {
+                    Console.ForegroundColor = ConsoleColor.White;       //change text color to white
+                    Console.WriteLine(ingredient.name + " -> " + ingredient.quantity + " " + ingredient.unitsOfMeasurements);
+                }
+                break;
+            case "Double":
+                //multiply the quantity of the ingredient by 2 which is double
+                //foreach loop because for each ingredient the operation must be done
+                foreach (var ingredient in ingredients)
+                {
+                    ingredient.quantity = ingredient.quantity * 2;
+                }
+                //display new scaled values of recipe ingredients to ease oprations so that user doesn't have to enter D again to display full recipe, but user can choose D again to display full recipe
+                Console.ForegroundColor = ConsoleColor.DarkMagenta;       //change text color to purple
+                Console.WriteLine("---- Scaled recipe ----");
+                foreach (var ingredient in ingredients)
+                {
+                    Console.ForegroundColor = ConsoleColor.White;       //change text color to white
+                    Console.WriteLine(ingredient.name + " -> " + ingredient.quantity + " " + ingredient.unitsOfMeasurements);
+                }
+                break;
+            case "Triple":
+                //multiply the quantity of the ingredient by 3 which is triple
+                //foreach loop because for each ingredient the operation must be done
+                foreach (var ingredient in ingredients)
+                {
+                    ingredient.quantity = ingredient.quantity * 3;
+                }
+                ////display new scaled values of recipe ingredients to ease oprations so that user doesn't have to enter D again to display full recipe, but user can choose D again to display full recipe
+                Console.ForegroundColor = ConsoleColor.DarkMagenta;       //change text color to purple
+                Console.WriteLine("---- Scaled recipe ----");
+                foreach (var ingredient in ingredients)
+                {
+                    Console.ForegroundColor = ConsoleColor.White;       //change text color to white
+                    Console.WriteLine(ingredient.name + " -> " + ingredient.quantity + " " + ingredient.unitsOfMeasurements);
+                }
 
-            //capture user input which is a string value
-            Console.ForegroundColor = ConsoleColor.White;       //change text color to white
-            string scalingFactor = Console.ReadLine();
-
-            ////switch case menu to perform each option chosen
-            switch (scalingFactor)
-            {
-                case "Half":
-                    //multiply the quantity of the ingredient by 0.5 which is half
-                    //foreach loop because for each ingredient the operation must be done
-                    foreach (var ingredient in ingredients)
-                    {
-                        ingredient.quantity = ingredient.quantity * 0.5;
-                    }
-                    //display new scaled values of recipe ingredients to ease oprations so that user doesn't have to enter D again to display full recipe, but user can choose D again to display full recipe
-                    Console.ForegroundColor = ConsoleColor.DarkMagenta;       //change text color to purple
-                    Console.WriteLine("---- Scaled recipe ----");
-                    foreach (var ingredient in ingredients)
-                    {
-                        Console.ForegroundColor = ConsoleColor.White;       //change text color to white
-                        Console.WriteLine(ingredient.name + " -> " + ingredient.quantity + " " + ingredient.unitsOfMeasurements);
-                    }
-                    break;
-                case "Double":
-                    //multiply the quantity of the ingredient by 2 which is double
-                    //foreach loop because for each ingredient the operation must be done
-                    foreach (var ingredient in ingredients)
-                    {
-                        ingredient.quantity = ingredient.quantity * 2;
-                    }
-                    //display new scaled values of recipe ingredients to ease oprations so that user doesn't have to enter D again to display full recipe, but user can choose D again to display full recipe
-                    Console.ForegroundColor = ConsoleColor.DarkMagenta;       //change text color to purple
-                    Console.WriteLine("---- Scaled recipe ----");
-                    foreach (var ingredient in ingredients)
-                    {
-                        Console.ForegroundColor = ConsoleColor.White;       //change text color to white
-                        Console.WriteLine(ingredient.name + " -> " + ingredient.quantity + " " + ingredient.unitsOfMeasurements);
-                    }
-                    break;
-                case "Triple":
-                    //multiply the quantity of the ingredient by 3 which is triple
-                    //foreach loop because for each ingredient the operation must be done
-                    foreach (var ingredient in ingredients)
-                    {
-                        ingredient.quantity = ingredient.quantity * 3;
-                    }
-                    ////display new scaled values of recipe ingredients to ease oprations so that user doesn't have to enter D again to display full recipe, but user can choose D again to display full recipe
-                    Console.ForegroundColor = ConsoleColor.DarkMagenta;       //change text color to purple
-                    Console.WriteLine("---- Scaled recipe ----");
-                    foreach (var ingredient in ingredients)
-                    {
-                        Console.ForegroundColor = ConsoleColor.White;       //change text color to white
-                        Console.WriteLine(ingredient.name + " -> " + ingredient.quantity + " " + ingredient.unitsOfMeasurements);
-                    }
-
-                    //clear console screen n/a
-                    //Console.Clear();
-                    break;
-                case "B":
+                //clear console screen n/a
+                //Console.Clear();
+                break;
+            case "B":
                 //go back to main menu
                 Menu();
-                    break;
-                default:
-                    //output message to user for inputting a wrong option
-                    Console.ForegroundColor = ConsoleColor.DarkMagenta;     //change text color to purple
-                    Console.WriteLine("Invalid option entered, try again");
-                    break;
-            }
+                break;
+            default:
+                //output message to user for inputting a wrong option
+                Console.ForegroundColor = ConsoleColor.DarkMagenta;     //change text color to purple
+                Console.WriteLine("Invalid option entered, try again");
+                break;
         }
-
-        private static void Reset()
-        {
-            //reset recipe
-            //for loop because for each ingredient's quantity changed by the scaling factor, it has to be reset to the original quantity values entered by the user that has been stored in the orgQuantities 
-            for (int i = 0; i < numIng; i++)
-            {
-                ingredients[i].quantity = orgQuantities[i];
-            }
-            //confirm the user that recipe has been reset
-            Console.ForegroundColor = ConsoleColor.DarkMagenta;     //change text color to purple
-            Console.WriteLine("___ Recipe has been reset to original values ___");
-
-            //clear console screen n/a
-            //Console.Clear();
-        }
-
-        private static void Clear()
-        {
-            //clear data
-            //for loop because for each ingredient in the array, the quantity must be cleared therefore equal to 0
-            for (int i = 0; i < numIng; i++)
-            {
-                ingredients[i].name = "";
-                ingredients[i].quantity = 0;
-                ingredients[i].unitsOfMeasurements = "";
-                Console.WriteLine("Ingredients: " + ingredients[i].name + ingredients[i].quantity + ingredients[i].unitsOfMeasurements);
-
-            }
-            //for loop because for each step in the array, the description of the step must be cleared therefore "" creating empty values
-            for (int i = 0; i < numSteps; i++)
-            {
-                recSteps[i] = "";
-                Console.WriteLine("Steps: " + recSteps[i]);
-            }
-            //confirm the user hat data has been cleared and can now enter a new recipe's details
-            Console.ForegroundColor = ConsoleColor.DarkMagenta;       //change text color to purple
-            Console.WriteLine("___ Data has been cleared. Enter new recipe details ___");
-
-            //clear console screen n/a
-            //Console.Clear();
-
-            //call method so that user can begin again to follow the steps again to enter a new recpe
-            RecipeDetails();
-        }
-
     }
+
+    private static void Reset()
+    {
+        //reset recipe
+        //for loop because for each ingredient's quantity changed by the scaling factor, it has to be reset to the original quantity values entered by the user that has been stored in the orgQuantities 
+        for (int i = 0; i < numIng; i++)
+        {
+            ingredients[i].quantity = orgQuantities[i];
+        }
+        //confirm the user that recipe has been reset
+        Console.ForegroundColor = ConsoleColor.DarkMagenta;     //change text color to purple
+        Console.WriteLine("___ Recipe has been reset to original values ___");
+
+        //clear console screen n/a
+        //Console.Clear();
+    }
+
+    private static void Clear()
+    {
+        //clear data
+        //for loop because for each ingredient in the array, the quantity must be cleared therefore equal to 0
+        for (int i = 0; i < numIng; i++)
+        {
+            ingredients[i].name = "";
+            ingredients[i].quantity = 0;
+            ingredients[i].unitsOfMeasurements = "";
+            Console.WriteLine("Ingredients: " + ingredients[i].name + ingredients[i].quantity + ingredients[i].unitsOfMeasurements);
+
+        }
+        //for loop because for each step in the array, the description of the step must be cleared therefore "" creating empty values
+        for (int i = 0; i < numSteps; i++)
+        {
+            recSteps[i] = "";
+            Console.WriteLine("Steps: " + recSteps[i]);
+        }
+        //confirm the user hat data has been cleared and can now enter a new recipe's details
+        Console.ForegroundColor = ConsoleColor.DarkMagenta;       //change text color to purple
+        Console.WriteLine("___ Data has been cleared. Enter new recipe details ___");
+
+        //clear console screen n/a
+        //Console.Clear();
+
+        //call method so that user can begin again to follow the steps again to enter a new recpe
+        RecipeDetails();
+    }
+
+}
