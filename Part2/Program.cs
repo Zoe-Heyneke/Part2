@@ -9,11 +9,16 @@ internal class ProgramPart1
     //declare and initialize variables used in program
     public class Ingredients
     {
-        public string name;
-        public double quantity;
-        public string unitsOfMeasurements;
-        public double calories;
-        public string foodGroup;
+        public string name
+        { get; set; }
+        public double quantity
+        { get; set; }
+        public string unitsOfMeasurements
+        { get; set; }
+        public double calories
+        { get; set; }
+        public string foodGroup
+        { get; set; }
     }
 
     //declare and initialize variables used in recipes details list namespace
@@ -437,7 +442,14 @@ internal class ProgramPart1
             }
             //clear console screen n/a
             //Console.Clear();
-        }
+            //calculate calories
+            Console.ForegroundColor = ConsoleColor.DarkMagenta;       //change text color to purple
+            Console.WriteLine("---- Total Calories ----");
+            foreach(var ingredient in ingredients)
+            {
+                ingredient.calories = ingredient.calories + ingredient.calories;
+            }
+    }
 
         private static void Scale()
         {
