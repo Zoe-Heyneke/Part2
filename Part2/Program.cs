@@ -389,7 +389,7 @@ internal class ProgramPart1
         }
     }
 
-
+    //public delegate void CalorieWarning(double totalCalories);
     private static void Display()
     {
         //linq    
@@ -426,6 +426,7 @@ internal class ProgramPart1
             Console.ForegroundColor = ConsoleColor.White;       //change text color to white
             Console.WriteLine("Name: " + ingredient.name + "\n" + "Quantity: " + ingredient.quantity + "\n" + "Units of Measurements: " + ingredient.unitsOfMeasurements + "\n" + "Calories: " + ingredient.calories + "\n" + "Food Group: " + ingredient.foodGroup + "\n");
         }
+
 
         //calculate calories
         Console.ForegroundColor = ConsoleColor.DarkYellow;       //change text color to yellow
