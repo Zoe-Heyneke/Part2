@@ -113,6 +113,9 @@ internal class ProgramPart1
             Console.ForegroundColor = ConsoleColor.White;       //change text color to white
             double quantityIng = Convert.ToDouble(Console.ReadLine());
 
+            //clear console screen
+            Console.Clear();
+
             //improvement2
             //allow user to choose the unit of measurement by using menu system
             //ask user to enter the unit of measurement and store it as unitsMe
@@ -204,6 +207,9 @@ internal class ProgramPart1
             //users input is saved as a int and converted as the variable fg
             string fg = Console.ReadLine();
 
+            //clear console screen
+            //Console.Clear();
+
             //switch case
             //assign each option to variable of fg so that it will display in the recipe
             //confirm with user their option
@@ -212,45 +218,48 @@ internal class ProgramPart1
                 case "C":
                     fg = "Carbohydrates";
                     Console.ForegroundColor = ConsoleColor.DarkCyan;       //change text color to dark cyan
-                    Console.WriteLine("Food Group - Carbohydrates \n Source of fibre");
+                    Console.WriteLine("Food Group - Carbohydrates \n Source of fibre \n");
                     break;
                 case "V":
                     fg = "Vegetables and Fruits";
                     Console.ForegroundColor = ConsoleColor.DarkCyan;       //change text color to dark cyan
-                    Console.WriteLine("Food Group - Vegetables and Fruits \n Source of vitamins and minerals");
+                    Console.WriteLine("Food Group - Vegetables and Fruits \n Source of vitamins and minerals \n");
                     break;
                 case "P":
                     fg = "Protein";
                     Console.ForegroundColor = ConsoleColor.DarkCyan;       //change text color to dark cyan
-                    Console.WriteLine("Food Group - Protein \n Source of amino acids");
+                    Console.WriteLine("Food Group - Protein \n Source of amino acids \n");
                     break;
                 case "F":
                     fg = "Fats and Oils";
                     Console.ForegroundColor = ConsoleColor.DarkCyan;       //change text color to dark cyan
-                    Console.WriteLine("Food Group - Fats and Oils \n Source of fatty acids");
+                    Console.WriteLine("Food Group - Fats and Oils \n Source of fatty acids \n");
                     break;
                 case "D":
                     fg = "Dairy";
                     Console.ForegroundColor = ConsoleColor.DarkCyan;       //change text color to dark cyan
-                    Console.WriteLine("Food Group - Dairy \n Source of calcium, protein and vitamins");
+                    Console.WriteLine("Food Group - Dairy \n Source of calcium, protein and vitamins \n");
                     break;
                 case "W":
                     fg = "Water";
                     Console.ForegroundColor = ConsoleColor.DarkCyan;       //change text color to dark cyan
-                    Console.WriteLine("Food Group - Water \n Source of hydration");
+                    Console.WriteLine("Food Group - Water \n Source of hydration \n");
                     break;
                 case "O":
                     fg = "Other";
                     Console.ForegroundColor = ConsoleColor.DarkCyan;       //change text color to dark cyan
-                    Console.WriteLine("Food Group - Other \n Unhealthy foods");
+                    Console.WriteLine("Food Group - Other \n Unhealthy foods \n");
                     break;
                 default:
                     fg = "Other";
                     //default option is other due to unknown value entered by user
                     Console.ForegroundColor = ConsoleColor.DarkCyan;       //change text color to dark cyan
-                    Console.WriteLine("Food Group - Other");
+                    Console.WriteLine("Food Group - Other \n");
                     break;
             }
+
+            //clear console screen
+            //Console.Clear();
 
             //(1)create new object which is Ingredients which is assigned to ingredients[i] (this will help with positioning of the array)
             //variables are set to stored values of user input to be in the array of ingredients
@@ -274,8 +283,11 @@ internal class ProgramPart1
             newRec.Ingredients.Add(moreIngredients);
 
             //clear console screen
-            Console.Clear();
+            //Console.Clear();
         }
+
+        //clear console screen
+        //Console.Clear();
 
         //move list for steps at top to save as whole list
         recSteps = new List<string>();
