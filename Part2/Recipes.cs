@@ -20,8 +20,33 @@ namespace Part2
         { get; set; }   //get and set method to access value of private
         public List<string> recSteps //property
         { get; set; }   //get and set method to access value of private
-        
 
-        //potential fix:public object Ingredients { get; internal set; }
+        delegate void CalorieWarning(double number);
+
+        public double Calculations()
+        {
+            //calculate calories
+            Console.ForegroundColor = ConsoleColor.DarkYellow;       //change text color to yellow
+            Console.WriteLine("---- Calories: ----");
+            Console.ResetColor();
+            double total_calories = 0;
+            foreach (var ingredient in this.Ingredients)
+            {
+                total_calories += ingredient.calories;
+            }
+
+            Console.WriteLine($"Total Calories = {total_calories}" + "\n");
+            CalorieWarning warning = total_calories =>
+            {
+                if (total_calories > 300)
+                {
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.WriteLine("Warning! Total calories exceeds 300!" + "\n" + "** All your ingredient's calories together are more than 300 calories **" + "\n");
+                    Console.ResetColor();
+                }
+            };
+            warning(total_calories);
+            return total_calories;
+        }
     }
 }

@@ -427,28 +427,7 @@ internal class ProgramPart1
             Console.WriteLine("Name: " + ingredient.name + "\n" + "Quantity: " + ingredient.quantity + "\n" + "Units of Measurements: " + ingredient.unitsOfMeasurements + "\n" + "Calories: " + ingredient.calories + "\n" + "Food Group: " + ingredient.foodGroup + "\n");
         }
 
-
-        //calculate calories
-        Console.ForegroundColor = ConsoleColor.DarkYellow;       //change text color to yellow
-        Console.WriteLine("---- Calories: ----");
-        Console.ResetColor();
-        double total_calories = 0;
-        foreach (var ingredient in activeRecipe.Ingredients)
-        {
-            total_calories += ingredient.calories;
-        }
-
-        Console.WriteLine($"Total Calories = {total_calories}" + "\n");
-        CalorieWarning warning = total_calories =>
-        {
-            if (total_calories > 300)
-            {
-                Console.ForegroundColor = ConsoleColor.Red;
-                Console.WriteLine("Warning! Total calories exceeds 300!" + "\n" + "** All your ingredient's calories together are more than 300 calories **" + "\n");
-                Console.ResetColor();
-            }
-        };
-        warning(total_calories);
+        activeRecipe.Calculations();
 
         Console.ForegroundColor = ConsoleColor.DarkMagenta;       //change text color to purple
         Console.WriteLine("---- Steps: ----");
@@ -462,6 +441,7 @@ internal class ProgramPart1
         //Console.Clear();
         
     }
+
 
     private static void Scale()
     {
