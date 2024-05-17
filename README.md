@@ -16,3 +16,7 @@ Note: These instructions are done using Microsoft Visual Studio Code
     8. This will open the program in Visual Studio. In Visual Studio you will see the code and look at the top navigation bar in the middle area, you will see a green play button 9.Press the green play button to run the application
 
 Link to GitHub repository: https://github.com/Zoe-Heyneke/Part2.git
+
+Changes from Part 1 based on feedback:
+I made 3 changes to improve from my Part. The first change was my layout of showing messages to the user, thus I moved some Console.WriteLine(“”); parts at the beginning of when the menu system must run so that it will only show once and not repeat itself. Next, I added a switch case so that the user can choose what their unit of measurement is which will add more user connectivity to the application. Lastly, I took out all my methods that was inside each case of the menu system and gave them their own method name so that in the case I can only call the method name and not the steps making my code more organized and structured for future use.
+[124 words]
